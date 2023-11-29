@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int x[1001], y[1001], n, i, j, nrdiv = 1, d, exponent;
+
+int main()
+{
+    ifstream fin("sortare_divizori.in");
+    ofstream fout("sortare_divizori.out");
+
+    fin >> n;
+    
+    for(i = 1; i <= n; i++)
+    {
+        fin >> x[i];
+        
+        int a = x[i];
+        
+        for(d = 2; a > 1, d * d <= a; d ++)
+        {
+            while(a % d == 0)
+            {
+                a = a / d;
+                exponent ++;
+            }
+            
+            nrdiv = nrdiv * (exponent + 1);
+            exponent = 0;
+        }
+        
+        if(a != 1)
+        {
+            nrdiv = nrdiv * 2;
+        }
+
+        y[i] = nrdiv;
+
+        nrdiv = 1;
+    }
+
+    for(i = 1; i <= n; i++)
+    {
+        for(j = i + 1; j <= n; j++)
+        {
+            if(y[i] < y[j])
+            {
+                swap(x[i], x[j]);
+                swap(y[i], y[j]);
+            }
+            else if(y[i] == y[j])
+            {
+                if(x[i] > x[j])
+                {
+                    swap(x[i], x[j]);
+                    swap(y[i], y[j]);
+                }
+            }
+        }
+    }
+
+    for(i = 1; i <= n; i++)
+    {
+        fout << x[i] << " ";
+    }
+
+    return 0;
+}
